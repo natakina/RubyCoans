@@ -6,7 +6,7 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 #
 # A greed roll is scored as follows:
 #
-# * A set of three ones is 1000 points
+# * A set of three ones is 1000 pointsего в 
 #
 # * A set of three numbers (other than ones) is worth 100 times the
 #   number. (e.g. three fives is 500 points).
@@ -31,10 +31,37 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 def score(dice)
   # You need to write this method
+  result = 0
+  hashResult = Hash.new(0)
+  dice.each do
+    |item| if hashResult[item]
+             hashResult[item] = hashResult[item] + 1
+             else hashResult[item] = 1
+           end
+  end
+
+  puts hashResult
+
+  hashResult.each do
+    |key, value| if value === 3
+                   if key === 1
+                     result = result + 1000
+                   else result = result + (key * 100)
+                   end
+                 else key === 1
+                  puts key, 'HERE'
+                   result = result + 100
+                 end
+  end
+
+  puts result
+
+
 end
 
 class AboutScoringProject < Neo::Koan
   def test_score_of_an_empty_list_is_zero
+    # assert_equal 0, score([5,5,5,2,1]) MY TEST!!!
     assert_equal 0, score([])
   end
 
