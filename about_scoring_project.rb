@@ -32,36 +32,36 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 def score(dice)
   # You need to write this method
   result = 0
+
   hashResult = Hash.new(0)
-  dice.each do
-    |item| if hashResult[item]
-             hashResult[item] = hashResult[item] + 1
-             else hashResult[item] = 1
-           end
+
+  dice.each do |item|
+     hashResult[item] += 1
   end
 
-  puts hashResult
+  hashResult.each do |item, quantity|
+    if quantity >= 3
+      if item === 1
+        result = result + 1000
+      else result = result + (item * 100)
+      end
+      quantity -= 3
+    end
 
-  hashResult.each do
-    |key, value| if value === 3
-                   if key === 1
-                     result = result + 1000
-                   else result = result + (key * 100)
-                   end
-                 else key === 1
-                  puts key, 'HERE'
-                   result = result + 100
-                 end
+    if item === 1
+      result = result + (quantity * 100)
+    else if item === 5
+           result = result + (quantity * 50)
+         end
+    end
   end
 
-  puts result
-
-
+  result
 end
 
 class AboutScoringProject < Neo::Koan
   def test_score_of_an_empty_list_is_zero
-    # assert_equal 0, score([5,5,5,2,1]) MY TEST!!!
+    # assert_equal 0, score([5,5,5,2,1])
     assert_equal 0, score([])
   end
 
